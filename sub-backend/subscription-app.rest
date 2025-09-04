@@ -1,0 +1,68 @@
+### GET /
+GET http://localhost:5500 
+
+### Register a user POST API/V1/AUTH/SIGN-UP
+POST http://localhost:5500/api/v1/auth/sign-up
+Content-Type: application/json
+
+{   
+    "firstName": "Utkarsh",
+    "lastName" : "Sharma",
+    "email": "utkarshsharma12158@gmail.com",
+    "password": "123123123"
+}
+
+### Verify a user GET API/V1/AUTH/VERIFY-EMAIL
+GET http://localhost:5500/api/v1/auth/verify-email?token=c6ddb92ba2d9123bd83fd914cd0996f5e2c32f86d16c0df8bee2925c6507ffc1
+
+
+### Login a user POST API/V1/AUTH/SIGN-IN
+POST http://localhost:5500/api/v1/auth/sign-in
+Content-Type: application/json
+
+{   
+    "firstName": "Utkarsh",
+    "lastName" : "Sharma",
+    "email": "utkarshsharma12158@gmail.com",
+    "password": "123123123"
+}
+
+### Fetch all USERS GET API/V1/USERS
+GET  http://localhost:5500/api/v1/users
+
+### Create Subscriptions POST API/V1/SUBSCRIPTIONS
+POST http://localhost:5500/api/v1/subscriptions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGIwMjNhZDI2NTAxYTgwZTBjNDdhOTEiLCJpYXQiOjE3NTYzNzM5OTgsImV4cCI6MTc1NjQ2MDM5OH0.VVfHXM4L86VA2el-NJiXQ2Z4C-Nqq2EsTN9gjx9GQ8E
+Content-Type: application/json
+
+{
+      "name": "HBO",
+      "price": 25.99,
+      "currency": "USD",
+      "frequency": "monthly",
+      "category": "Shopping",
+      "startDate": "2025-08-01",
+      "paymentMethod": "Credit Card"
+    }
+
+### Get User Subscriptions GET API/V1/SUBSCRIPTIONS/
+GET  http://localhost:5500/api/v1/subscriptions/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGIwMjNhZDI2NTAxYTgwZTBjNDdhOTEiLCJpYXQiOjE3NTYzNzM5OTgsImV4cCI6MTc1NjQ2MDM5OH0.VVfHXM4L86VA2el-NJiXQ2Z4C-Nqq2EsTN9gjx9GQ8E
+
+
+
+### Delete User Subscriptions DELETE API/V1/SUBSCRIPTIONS/:ID/DELETE
+DELETE  http://localhost:5500/api/v1/subscriptions/68b0243426501a80e0c47aa5/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGIwMjNhZDI2NTAxYTgwZTBjNDdhOTEiLCJpYXQiOjE3NTYzNzM5OTgsImV4cCI6MTc1NjQ2MDM5OH0.VVfHXM4L86VA2el-NJiXQ2Z4C-Nqq2EsTN9gjx9GQ8E
+
+
+
+### Update User Subscription UPDATE API/V1/SUBSCRIPTIONS/:ID/CANCEL
+PUT  http://localhost:5500/api/v1/subscriptions/68b0246026501a80e0c47ab1/cancel
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGIwMjNhZDI2NTAxYTgwZTBjNDdhOTEiLCJpYXQiOjE3NTYzNzM5OTgsImV4cCI6MTc1NjQ2MDM5OH0.VVfHXM4L86VA2el-NJiXQ2Z4C-Nqq2EsTN9gjx9GQ8E
+
+
+
+### Get UPCOMING RENEWALS GET API/V1/SUBSCRIPTIONS/UPCOMING-RENEWALS
+GET  http://localhost:5500/api/v1/subscriptions/upcoming-renewals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGIwMjNhZDI2NTAxYTgwZTBjNDdhOTEiLCJpYXQiOjE3NTYzNzM5OTgsImV4cCI6MTc1NjQ2MDM5OH0.VVfHXM4L86VA2el-NJiXQ2Z4C-Nqq2EsTN9gjx9GQ8E

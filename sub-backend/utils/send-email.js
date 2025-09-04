@@ -1,0 +1,114 @@
+import { emailTemplates } from './email-template.js';
+import dayjs from 'dayjs';
+import transporter, { accountEmail } from '../config/nodemailer.js';
+
+export const sendReminderEmail = async ({ to, type, subscription }) => {
+  // Corrected the console.log to use the actual parameters
+  console.log('sendReminderEmail function was called with:', {
+    to,
+    type,
+    subscription,
+  });
+
+  if (!to || !type) throw new Error('Missing required parameters');
+
+  const template = emailTemplates.find((t) => t.label === type);
+
+  if (!template) throw new Error('Invalid email type');
+
+  const mailInfo = {
+    userName: subscription.user.name,
+    subscriptionName: subscription.name,
+    renewalDate: dayjs(subscription.renewalDate).format('MMM D, YYYY'),
+    planName: subscription.name,
+    price: `${subscription.currency} ${subscription.price} (${subscription.frequency})`,
+    paymentMethod: subscription.paymentMethod,
+  };
+
+  const message = template.generateBody(mailInfo);
+  const subject = template.generateSubject(mailInfo);
+
+  const mailOptions = {
+    from: accountEmail,
+    to: to,
+    subject: subject,
+    html: message,
+  };
+
+  try {
+    // Use async/await for cleaner, more reliable error handling
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error; // Rethrow the error to be caught by the parent function
+  }
+};
+
+export const sendVerificationEmail = async ({ to, verificationLink }) => {
+  if (!to || !verificationLink) {
+    throw new Error('Missing required parameters');
+  }
+
+  const template = emailTemplates.find((t) => t.label === 'verification');
+
+  if (!template) {
+    throw new Error('Invalid email type');
+  }
+
+  // --- CORRECTED: Pass an object with a key for the link ---
+  const message = template.generateBody({ verificationLink: verificationLink });
+  // --------------------------------------------------------
+
+  const subject = template.generateSubject();
+
+  const mailOptions = {
+    from: accountEmail,
+    to: to,
+    subject: subject,
+    html: message,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+};
+
+export const resetPasswordEmail = async ({ to, resetPasswordLink }) => {
+  if (!to || !resetPasswordLink) {
+    throw new Error('Missing required parameters');
+  }
+
+  const template = emailTemplates.find((t) => t.label === 'resetPassword');
+
+  if (!template) {
+    throw new Error('Invalid email type');
+  }
+
+  // --- CORRECTED: Pass an object with a key for the link ---
+  const message = template.generateBody({
+    resetPasswordLink: resetPasswordLink,
+  });
+  // --------------------------------------------------------
+
+  const subject = template.generateSubject();
+
+  const mailOptions = {
+    from: accountEmail,
+    to: to,
+    subject: subject,
+    html: message,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+};
