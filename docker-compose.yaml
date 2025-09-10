@@ -1,37 +1,31 @@
 version: "3.8"
 
 services:
-  # The backend service
   backend:
     build:
       context: ./sub-backend
       dockerfile: Dockerfile
     container_name: subscription_backend
     env_file:
-      - ./sub-backend/.env.development.local # Change this to ./.env.production.local for production
+      - ./sub-backend/.env.production.local
     ports:
       - "5500:5500"
     networks:
       - subscription-network
-    volumes:
-      - ./sub-backend:/app # For hot-reloading in development
-      - /app/node_modules # To prevent node_modules from being overwritten by the host machine
+    restart: always # Auto-restart if container stops
 
-  # The frontend service
   frontend:
     build:
       context: ./sub-frontend
       dockerfile: Dockerfile
     container_name: subscription_frontend
     env_file:
-      - ./sub-frontend/.env.local # Change this to your production .env file for production
+      - ./sub-frontend/.env.local
     ports:
       - "3000:3000"
     networks:
       - subscription-network
-    volumes:
-      - ./sub-frontend:/app # For hot-reloading in development
-      - /app/node_modules
+    restart: always
 
 networks:
   subscription-network:

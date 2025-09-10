@@ -1,40 +1,46 @@
-# Stage 1: The Build Stage
-# Use a slim Node.js base image for building the app
+# ---------- Stage 1: Build ----------
 FROM node:18-alpine AS builder
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to leverage Docker cache
+# Copy package files first (for better caching)
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install all dependencies (including dev) for build
+RUN npm ci
 
-# Copy all the rest of your app's code
+# Copy the rest of the application code
 COPY . .
 
-# Run the Next.js build command
+# If you have a .env.production file, copy it so build can use NEXT_PUBLIC_* vars
+# COPY .env.production ./
+
+# Build the Next.js app
 RUN npm run build
 
-# Stage 2: The Production Runner
-# Use a new, clean, and slim Node.js image
+# ---------- Stage 2: Production Runner ----------
 FROM node:18-alpine AS runner
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy only the essential files from the builder stage
-# We're copying over the built code, node_modules, and package.json
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
+# Copy only necessary files from builder
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
 
-# Copy the public folder with your static assets (if any)
+# Install only production dependencies
+RUN npm ci --only=production
+
+# Copy built output and public assets
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
-# Expose the port Next.js runs on. Default is 3000.
+# Expose the port Next.js will run on
 EXPOSE 3000
 
-# The command to start the Next.js production server
+# Set NODE_ENV to production
+ENV NODE_ENV=production
+
+# Start the Next.js production server
 CMD ["npm", "start"]
