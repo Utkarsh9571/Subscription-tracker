@@ -9,7 +9,7 @@ services:
     env_file:
       - ./sub-backend/.env.production.local
     ports:
-      - "5500:5500"
+      - "80:5500"
     networks:
       - subscription-network
     restart: always # Auto-restart if container stops
