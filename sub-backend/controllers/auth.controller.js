@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import User from '../models/user.model.js';
 import {
+  FRONTEND_URL,
   FRONTEND_REDIRECT_URI,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
@@ -162,9 +163,7 @@ export const verifyEmails = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.redirect(
-        'http://192.168.29.162:3000/signin?verification=failed',
-      );
+      return res.redirect(`${frontendBase}/signin?verification=failed`);
     }
 
     user.status = 'verified';
@@ -224,7 +223,7 @@ export const resendEmailVerification = async (req, res, next) => {
 
     await user.save();
 
-    const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
+    const verificationLink = `${frontendBase}/verify-email?token=${verificationToken}`;
     await sendVerificationEmail({ to: user.email, verificationLink });
 
     return res
@@ -250,7 +249,7 @@ export const forgotPassword = async (req, res, next) => {
 
       await user.save();
 
-      const resetPasswordLink = `http://localhost:3000/reset-password?token=${verificationToken}`;
+      const resetPasswordLink = `${frontendBase}/reset-password?token=${verificationToken}`;
       await resetPasswordEmail({
         to: user.email,
         resetPasswordLink,

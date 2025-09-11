@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNotifications } from '@/context/NotificationContext';
 import API_BASE_URL from '@/lib/api';
+import { v4 as uuidv4 } from 'uuid';
 
 interface CredentialResponse {
   credential?: string;
@@ -255,7 +256,7 @@ export default function SignInForm() {
        console.log('Redirect URI:', redirectUri);
        console.log('Requested Scopes:', scopes);
    
-       const state = crypto.randomUUID();
+       const state = uuidv4();
        // Use a cookie to store the state so the server component can access it.
        document.cookie = `github_oauth_state=${state}; path=/; max-age=3600; secure;`;
        

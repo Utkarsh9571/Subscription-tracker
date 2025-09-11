@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import API_BASE_URL from '@/lib/api';
+import { v4 as uuidv4 } from 'uuid';
 
 
 // Type declarations for the Google Sign-In SDK
@@ -316,7 +317,7 @@ export default function SignUpForm() {
     console.log('Redirect URI:', redirectUri);
     console.log('Requested Scopes:', scopes);
 
-    const state = crypto.randomUUID();
+    const state = uuidv4();
     // Use a cookie to store the state so the server component can access it.
     document.cookie = `github_oauth_state=${state}; path=/; max-age=3600; secure;`;
     

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import Router from "next/router";
+import API_BASE_URL from "@/lib/api";
 
 interface User {
   firstName: string;
@@ -47,7 +48,7 @@ useEffect(() => {
       }
       
       try {
-        const response = await fetch('http://localhost:5500/api/v1/users/getMe', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/users/getMe`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
