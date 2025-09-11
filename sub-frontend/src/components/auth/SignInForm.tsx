@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNotifications } from '@/context/NotificationContext';
+import API_BASE_URL from '@/lib/api';
 
 interface CredentialResponse {
   credential?: string;
@@ -85,8 +86,8 @@ const EyeCloseIcon = (props: React.SVGProps<SVGSVGElement>) => (
  
 );
 
-const API_URL = "http://192.168.29.162:5500/api/v1/auth/sign-in";
-const GOOGLE_AUTH_API_URL = "http://192.168.29.162:5500/api/v1/auth/google";
+const API_URL = `${API_BASE_URL}/api/v1/auth/sign-in`;
+const GOOGLE_AUTH_API_URL = `${API_BASE_URL}/api/v1/auth/google`;
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -247,7 +248,7 @@ export default function SignInForm() {
        const githubLoadingToastId = toast.loading("Redirecting to GitHub...", { position: "top-center" });
    
        const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-       const redirectUri = 'http://localhost:3000/callback'; // <-- UPDATED REDIRECT URI
+       const redirectUri = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI || 'http://localhost:3000/callback'; // <-- UPDATED REDIRECT URI
        const scopes = 'user:email';
        
        console.log('Client ID:', clientId);

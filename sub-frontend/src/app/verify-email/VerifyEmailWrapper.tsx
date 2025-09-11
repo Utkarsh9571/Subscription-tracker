@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import API_BASE_URL from '@/lib/api';
+
 
 export default function VerifyEmailWrapper() {
   const router = useRouter();
@@ -20,7 +22,7 @@ export default function VerifyEmailWrapper() {
 
       try {
         const response = await axios.get(
-          `http://localhost:5500/api/v1/auth/verify-email?token=${token}`
+          `${API_BASE_URL}/api/v1/auth/verify-email?token=${token}`
         );
 
         if (response.data.success) {

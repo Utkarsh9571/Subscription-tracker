@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import API_BASE_URL from '@/lib/api';
 
 // Define the shape of your user data for type safety
 interface User {
@@ -32,7 +33,7 @@ export default function UserMetaCard() {
       }
       
       try {
-        const response = await fetch('http://localhost:5500/api/v1/users/getMe', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/users/getMe`, {
           method: 'GET',
           headers: headers,
         });

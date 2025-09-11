@@ -7,6 +7,8 @@ import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import Image from "next/image";
+import API_BASE_URL from '@/lib/api';
+
 
 // Define the shape of your user data for type safety
 interface User {
@@ -46,7 +48,7 @@ export default function UserMetaCard() {
       }
       
       try {
-        const response = await fetch('http://localhost:5500/api/v1/users/getMe', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/users/getMe`, {
           method: 'GET',
           headers: headers,
         });
@@ -108,7 +110,7 @@ export default function UserMetaCard() {
     };
 
     try {
-      const response = await fetch('http://localhost:5500/api/v1/users/update', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/users/update`, {
         method: 'PUT',
         headers: headers,
         body: JSON.stringify(formData),

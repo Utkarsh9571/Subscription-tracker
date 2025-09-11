@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { API_URL } from "@/lib/constants";
 import { Value } from "react-calendar/dist/shared/types.js";
 
+
 // Helper function to get the JWT from local storage
 const getAuthToken = () => {
   return localStorage.getItem("token");

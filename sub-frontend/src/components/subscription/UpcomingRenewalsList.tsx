@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../ui/spinner/spinner";
+import API_BASE_URL from '@/lib/api';
+
 
 interface Subscription {
   _id: string;
@@ -17,7 +19,8 @@ interface Subscription {
   // Add any other properties your subscription objects have
 }
 
-const API_URL = "http://192.168.29.162:5500/api/v1/subscriptions";
+const API_URL = `${API_BASE_URL}/api/v1/subscriptions`;
+
 
 // Helper function to get the JWT from local storage
 const getAuthToken = () => {

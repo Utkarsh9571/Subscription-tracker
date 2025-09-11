@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import API_BASE_URL from '@/lib/api';
+
 
 // Type declarations for the Google Sign-In SDK
 declare global {
@@ -83,14 +85,13 @@ const EyeCloseIcon = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
-const SIGNUP_API_URL = "http://192.168.29.162:5500/api/v1/auth/sign-up";
-const RESEND_API_URL = "http://192.168.29.162:5500/api/v1/auth/resend-verification";
-const GOOGLE_AUTH_API_URL = "http://192.168.29.162:5500/api/v1/auth/google";
+const SIGNUP_API_URL = `${API_BASE_URL}/api/v1/auth/sign-up`;
+const RESEND_API_URL = `${API_BASE_URL}/api/v1/auth/resend-verification`;
+const GOOGLE_AUTH_API_URL = `${API_BASE_URL}/api/v1/auth/google`;
 
 export default function SignUpForm() {
   console.log('This component is rendering');
 
-  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -308,7 +309,7 @@ export default function SignUpForm() {
     const githubLoadingToastId = toast.loading("Redirecting to GitHub...", { position: "top-center" });
 
     const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-    const redirectUri = 'http://localhost:3000/callback'; // <-- UPDATED REDIRECT URI
+    const redirectUri = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI || 'http://localhost:3000/callback'; // <-- UPDATED REDIRECT URI
     const scopes = 'user:email';
     
     console.log('Client ID:', clientId);

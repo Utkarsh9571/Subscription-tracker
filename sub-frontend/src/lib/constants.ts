@@ -1,3 +1,3 @@
-// src/lib/constants.ts
+import API_BASE_URL from './api';
 
-export const API_URL = "http://localhost:5500/api/v1/subscriptions";
+export const API_URL = `${API_BASE_URL}/api/v1/subscriptions`;

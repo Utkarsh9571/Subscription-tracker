@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import API_BASE_URL from '@/lib/api.js'
 
 export default function ForgotPasswordForm() {
  
@@ -15,7 +16,7 @@ export default function ForgotPasswordForm() {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5500/api/v1/auth/forgot-password', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
