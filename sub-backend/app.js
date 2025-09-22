@@ -23,13 +23,22 @@ const corsOptions = {
   credentials: true, // Authorization is key for JWTs
 };
 
+// Fallback IP injection middleware
+//app.use((req, res, next) => {
+//  if (!req.headers['x-forwarded-for']) {
+//    req.headers['x-forwarded-for'] = req.connection.remoteAddress;
+//  }
+//  next();
+//});
+
+
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(arcjetMiddleware);
+//app.use(arcjetMiddleware);
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);

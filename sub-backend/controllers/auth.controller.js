@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import axios from 'axios';
-
 import User from '../models/user.model.js';
 import {
   FRONTEND_URL,
@@ -13,6 +12,7 @@ import {
   GITHUB_CLIENT_SECRET,
   JWT_EXPIRES_IN,
   JWT_SECRET,
+  SERVER_URL,
 } from '../config/env.js';
 import {
   sendVerificationEmail,
@@ -69,7 +69,7 @@ export const signUp = async (req, res, next) => {
       { session },
     );
 
-    const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
+    const verificationLink = `${SERVER_URL}/verify-email?token=${verificationToken}`;
     await sendVerificationEmail({ to: newUser[0].email, verificationLink });
 
     // JWT is now generated for the response
@@ -163,7 +163,7 @@ export const verifyEmails = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.redirect(`${frontendBase}/signin?verification=failed`);
+      return res.redirect(`${SERVER_URL}/signin?verification=failed`);
     }
 
     user.status = 'verified';
@@ -223,7 +223,7 @@ export const resendEmailVerification = async (req, res, next) => {
 
     await user.save();
 
-    const verificationLink = `${frontendBase}/verify-email?token=${verificationToken}`;
+    const verificationLink = `${SERVER_URL}/verify-email?token=${verificationToken}`;
     await sendVerificationEmail({ to: user.email, verificationLink });
 
     return res
@@ -249,7 +249,7 @@ export const forgotPassword = async (req, res, next) => {
 
       await user.save();
 
-      const resetPasswordLink = `${frontendBase}/reset-password?token=${verificationToken}`;
+      const resetPasswordLink = `${SERVER_URL}/reset-password?token=${verificationToken}`;
       await resetPasswordEmail({
         to: user.email,
         resetPasswordLink,
